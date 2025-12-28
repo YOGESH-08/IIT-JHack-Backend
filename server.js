@@ -2,7 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth.js';
 // import newsRoutes from './routes/news.js';
-// import collegesRoutes from './routes/colleges.js';
+import collegesRoutes from './routes/colleges.js';
 import {admin} from "./firebase.js";
 
 const app = express();
@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', authRoutes);
+app.use("/colleges",collegesRoutes);
 // app.use('/news', newsRoutes);
 // app.use('/colleges', collegesRoutes);
 
