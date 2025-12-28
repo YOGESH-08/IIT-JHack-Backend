@@ -1,32 +1,28 @@
-import express, { json } from 'express';
-import cors from 'cors';
-import authRoutes from './routes/auth.js';
-// import newsRoutes from './routes/news.js';
-import collegesRoutes from './routes/colleges.js';
-import {admin} from "./firebase.js";
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import authRoutes from "./routes/auth.js";
+import profileRoutes from "./routes/profile.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
-const allowedOrigins = ['http://localhost:5173'];
+app.use(
+  helmet({
+    crossOriginOpenerPolicy: false,
+  })
+);
 
-const corsOptions = {
-  origin: allowedOrigins,
-  optionsSuccessStatus: 200
-};
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
-app.use(cors(corsOptions));
-app.use(json());
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('!elloH');
-});
+app.use("/auth", authRoutes);
+app.use("/profile", profileRoutes);
 
-app.use('/auth', authRoutes);
-app.use("/colleges",collegesRoutes);
-// app.use('/news', newsRoutes);
-// app.use('/colleges', collegesRoutes);
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}/`);
-});
+app.listen(PORT, () => console.log("Server running on 3000"));
